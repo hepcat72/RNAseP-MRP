@@ -2,6 +2,12 @@
 
 This repository houses or links to all analysis scripts and packages required to perform the Mutation Frequency and Maturing Poly-A Abundance analyses that were performed for the journal article "Assembly of S. cerevisiae telomerase and its nuclear localization depend on RNase P and RNase MRP protein components".  Linked repositories & software packages may have their own dependencies and requirements.  All scripts are provided as-is.  No formal installation support is provided by the developer of the scripts in this repository, but feel free to create issues relating to the shell scripts in this repo.  Issues relating to dependencies should be brought up with the developers of those software packages.
 
+# License
+
+GNU General Public License, version 3
+
+See LICENSE file.
+
 # Requirements
 
 ## System Requirements
