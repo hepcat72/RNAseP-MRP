@@ -13,6 +13,8 @@ This repository houses or links to all analysis scripts and packages required to
 
 ## Command Line Scripts
 
+Note that each command line script may need to be edited to work on your system.  Each is provided as-is.
+
 ### Mutation Frequency Analysis
 
 Located in: RNAseP-MRP/mutation_frequency_analysis/scripts
