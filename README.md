@@ -19,7 +19,7 @@ Note that each command line script may need to be edited to work on your system.
 
 Located in: RNAseP-MRP/mutation_frequency_analysis/scripts
 
-Note, each script's dependencies must be manually installed in order for the scripts to work.
+Note, each script's dependencies must be manually installed in order for the scripts to work.  Look inside each script to view the usage notes at the top.  Some may require a specific directory structure.
 
 - count_snps.tcsh
 - freebayes_div_and_conq.tcsh
@@ -127,7 +127,7 @@ Run this for each amplicon-separated collection of paired-end fastq files.  We s
 - TLC1-2 	174	194
 - TLC1-3 	233	253
 
-If the freeBayes command fails on Galaxy because it runs out of memory or exceeded computation time and gets killed by the cluster, download the bam files, split them up, and run them manually using `freebayes_div_and_conq.tcsh`.  It breaks up bam files for every 10k mappings.  It needs to be run from a directory containing the subdirectoriesfor each amplicon - each of which contains a set of bam files (one for each sample).  Note, it assumes that all stitched-together reads are intended to map from beginning to end of the reference amplicon it was mapped to.
+If the freeBayes command fails on Galaxy because it runs out of memory or exceeded computation time and gets killed by the cluster, download the bam files, split them up, and run them manually using `freebayes_div_and_conq.tcsh`.  It breaks up bam files for every 10k mappings.  It needs to be run from a directory containing the subdirectories for each amplicon - each of which contains a set of bam files (one for each sample).  Note, it assumes that all stitched-together reads are intended to map from beginning to end of the reference amplicon it was mapped to.
 
 ### Step 6: Run the SNP counting and depth script
 
