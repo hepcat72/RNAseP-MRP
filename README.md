@@ -87,6 +87,12 @@ This step can be performed on galaxy or the command line using the barcode split
 
 split_amplicons.tcsh can be run on a cluster using batchCommander.  It takes a fasta file of the reference amplicon sequences and the forward and reverse fastq files.  The forward and reverse files must be similarly named so that they are processed in the same order (tip: they must appear in the same relative order when using `ls` on the command line).
 
+Note, you must preplace the following with your parameters:
+
+- `/path/to/` with the path to `split_amplicons.tcsh`.
+- `forward_reads.fq` with the name of your forward reads file.
+- `reverse_reads.fq` with the name of your reverse reads file.
+
 ```
 disEmbarrass.pl --de-split-auto /path/to/split_amplicons.tcsh reference_amplicons.fa "forward_reads.fq" "reverse_reads.fq" 1 > ampsplt.commands
 
@@ -123,7 +129,12 @@ If the freeBayes command fails on Galaxy because it runs out of memory or exceed
 
 ### Step 6: Run the SNP counting and depth script
 
-The following is a tcsh shell script to create a file of calls to the `count_snps.tcsh` script and run them on a compute cluster.  You can optionally supply a walltime of 1 hour (or use a 1 hour queue), as all jobs should take under an hour.  The foreach loop should is on a series of colon-delimited strings representing *amplicon_name:amplicon_length* (shown are the amplicon parameters used in our analysis - change them for your amplicons).  Although batchCommander is used here to submit the jobs, you may alternatively use your own cluster script.
+The following is a tcsh shell script to create a file of calls to the `count_snps.tcsh` script and run them on a compute cluster.  You can optionally supply a walltime of 1 hour (or use a 1 hour queue), as all jobs should take under an hour.  The foreach loop should is on a series of colon-delimited strings representing `amplicon_name:amplicon_length` (shown are the amplicon parameters used in our analysis - change them for your amplicons).  Although batchCommander is used here to submit the jobs, you may alternatively use your own cluster script.
+
+You must replace the following:
+
+- `ASH1:191 NME1:309 TLC1-1:348 TLC1-2:316 TLC1-3:243` - as indicated in the paragraph above.
+- `/path/to/` - with the path to `count_snps.tcsh`.
 
 ```
 echo -n "" > cntsnps.commands
@@ -140,16 +151,16 @@ batchCommander.pl cntsnps.commands -p DONE --verbose -s 0
 
 ### Step 7: *OPTIONAL* Compute haplotype abundances
 
-To compute the abundance of each unique variant of the amplicon, you can use mergeSeqs.pl from the CFF package.  Note, this trims all sequences to the supplied amplicon length and discards anything shorter, so you may wish to use a length slightly shorter than your amplicon length.  The following must be replaced with your parameters:
+To compute the abundance of each unique variant of the amplicon, you can use mergeSeqs.pl from the CFF package.  Note, this trims all sequences to the supplied amplicon length and discards anything shorter, so you may wish to use a length slightly shorter than your amplicon length.  The following must be replaced with your personal parameters:
 
-- amplicon_reference.fa
-- summary_outfile_name.txt
+- `amplicon_reference.fa`
+- `summary_outfile_name.txt`
 
 ```
 mergeSeqs.pl -b amplicon_length -p '' -f amplicon_reference.fa -u summary_outfile_name.txt -o .fa -x .tab -i "*.fq" --verbose
 ```
 
-Note that `"*.fq"` is in quotes.
+Note that `"*.fq"` must be in quotes.
 
 ## Maturing Poly-A Abundance Analysis
 
@@ -160,24 +171,24 @@ The following steps assume you're starting from barcode-split Fastq files.
 3. Run the main workflow (`Mature RNA Abundance Analysis v4 (streamlined)`).
 4. Select your sample collection (created in step 2) in the workflow form.
 5. Enter all the workflow parameters as shown in this example using our parameters:
-    - read_length: `250`
-    - forward_match_sequence: `CCGTGTGTTCATTTTATGAATCTTGGTGTTGTATTCACAGCTACTTCTCCTAATGCCTTCGATGCATTTAGATAATTTTTGGAAACAT`
-    - revcomp_match_sequence: `ATGTTTCCAAAAATTATCTAAATGCATCGAAGGCATTAGGAGAAGTAGCTGTGAATACAACACCAAGATTCATAAAATGAACACACGG`
-    - max_mismatch_density_for-rev_merge_0-1: `0.1`
-    - max_error_rate_5p_template_0-1: `0.1`
-    - three_prime_segment_to_trim: `CTGTAGGCACCATCAATCGTTACGTAG`
-    - rc_three_prime_segment_to_trim: `CTACGTAACGATTGATGGTGCCTACAG`
+    - **read_length**: `250`
+    - **forward_match_sequence**: `CCGTGTGTTCATTTTATGAATCTTGGTGTTGTATTCACAGCTACTTCTCCTAATGCCTTCGATGCATTTAGATAATTTTTGGAAACAT`
+    - **revcomp_match_sequence**: `ATGTTTCCAAAAATTATCTAAATGCATCGAAGGCATTAGGAGAAGTAGCTGTGAATACAACACCAAGATTCATAAAATGAACACACGG`
+    - **max_mismatch_density_for-rev_merge_0-1**: `0.1`
+    - **max_error_rate_5p_template_0-1**: `0.1`
+    - **three_prime_segment_to_trim**: `CTGTAGGCACCATCAATCGTTACGTAG`
+    - **rc_three_prime_segment_to_trim**: `CTACGTAACGATTGATGGTGCCTACAG`
 
 Note that the merged forward and reverse reads do not all need to be in the same orientation.  The workflow will flip them so that the forward match sequence is on the 5 prime end and the linker (i.e. 3 prime match sequence) is on the 3 prime end.  It will also trim the linker as many times as needed to account for multiple ligations.
 
 When the workflow (and sub-workflows) are complete, you will end up with a number of items added to your galaxy history, the following of which are of note:
 
-- Merged Reads (Raw) - These are the stitched together forward and reverse reads
-- Mapping Locations Summary - This is a QC output to confirm that most sequences are mapping to your amplicon
-- FastQC - A QC output, including over-represented sequences
-- TLC1 Match Info - A QC output from cutadapt showing where TLC1 was trimmed off
-- Mature RNA Abundances (final output) - Contains abundances of the maturing RNA states and the lengths and abundances of its Poly-A tail
-- Read Survival (MultiQC) - This shows you a plot of data lost at each step of the analysis from the raw forward/reverse reads to the last trim of the Poly-A tail
+- **Merged Reads (Raw)** - These are the stitched together forward and reverse reads
+- **Mapping Locations Summary** - This is a QC output to confirm that most sequences are mapping to your amplicon
+- **FastQC** - A QC output, including over-represented sequences
+- **TLC1 Match Info** - A QC output from cutadapt showing where TLC1 was trimmed off
+- **Mature RNA Abundances (final output)** - Contains abundances of the maturing RNA states and the lengths and abundances of its Poly-A tail
+- **Read Survival (MultiQC)** - This shows you a plot of data lost at each step of the analysis from the raw forward/reverse reads to the last trim of the Poly-A tail
 
 # Authors
 
