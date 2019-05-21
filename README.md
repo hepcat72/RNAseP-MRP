@@ -41,6 +41,8 @@ Note, each script's dependencies must be manually installed in order for the scr
 
 ## Galaxy Workflows
 
+Note that all workflows must be imported and any missing galaxy tools noted by Galaxy must be installed in order for the workflows to operate.
+
 ### Mutation Frequency Analysis
 
 Located in: RNAseP-MRP/mutation_frequency_analysis/galaxy_workflows
