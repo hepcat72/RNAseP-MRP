@@ -2,9 +2,9 @@
 
 This repository houses or links to all analysis scripts and packages required to perform the Mutation Frequency and Maturing Poly-A Abundance analyses that were performed for the journal article "Assembly of S. cerevisiae telomerase and its nuclear localization depend on RNase P and RNase MRP protein components".  Linked repositories & software packages may have their own dependencies and requirements.  All scripts are provided as-is.  No formal installation support is provided by the developer of the scripts in this repository, but feel free to create issues relating to the shell scripts in this repo.  Issues relating to dependencies should be brought up with the developers of those software packages.
 
-# Scripts provided in this repo (and their dependencies - not provided in this repo)
+# Requirements
 
-## General Requirements
+## System Requirements
 
 - *nix OS (e.g. linux or macOS)
     - tcsh
@@ -16,6 +16,8 @@ This repository houses or links to all analysis scripts and packages required to
 ### Mutation Frequency Analysis
 
 Located in: RNAseP-MRP/mutation_frequency_analysis/scripts
+
+Note, each script's dependencies must be manually installed in order for the scripts to work.
 
 - count_snps.tcsh
 - freebayes_div_and_conq.tcsh
