@@ -26,12 +26,12 @@ This repository houses or links to all analysis scripts and packages required to
     - filetools (https://github.com/hepcat72/filetools)
         - rename.pl
         - grep.pl
-    - Blast (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/legacy.NOTSUPPORTED/2.2.26/)
+    - Blast (version 2.2.26 - available via ncbi's ftp site)
         - blastall
         - formatdb
-- CFF (https://github.com/hepcat72/CFF)
+- *OPTIONAL* CFF (https://github.com/hepcat72/CFF)
     - mergeSeqs.pl
-- *OPTIONAL* https://bitbucket.org/princeton_genomics/barcode_splitter/
+- *OPTIONAL* barcode_splitter (https://bitbucket.org/princeton_genomics/barcode_splitter/)
 
 [*] Note, all dependencies are freely available except batchCommander.  batchCommander is a utility for running a series of command line calls on a cluster and works on SLURM, Torque, and SGE compute clusters.  You can either edit the above shell scripts to use your own cluster scripts or you can request a pre-release copy of batchCommander by emailing rleach@princeton.edu.
 
@@ -39,12 +39,16 @@ This repository houses or links to all analysis scripts and packages required to
 
 ### Mutation Frequency Analysis
 
+Located in: RNAseP-MRP/mutation_frequency_analysis/galaxy_workflows
+
 - 1-QC.ga
 - 2-Amplicon_Lengths.ga
 - 3-Mapping.ga
 - *OPTIONAL* Cut_Short_Amplicon_Adapters.ga (if amplicons are shorter than read length)
 
 ### Maturing Poly-A Abundance Analysis
+
+Located in: RNAseP-MRP/maturing_polya_abundance_analysis
 
 #### Main Workflow
 
@@ -142,6 +146,8 @@ mergeSeqs.pl -b amplicon_length -p '' -f amplicon_reference.fa -u summary_outfil
 Note that `"*.fq"` is in quotes.
 
 ## Maturing Poly-A Abundance Analysis
+
+The following steps assume you're starting from barcode-split Fastq files.
 
 1. Import the Galaxy Workflows (`*.ga`) into your Galaxy account and install any missing tools noted by Galaxy upon import
 2. Put all your demultiplexed samples' forward and reverse reads files into a list of dataset pairs.
