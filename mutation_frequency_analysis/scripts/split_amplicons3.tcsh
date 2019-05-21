@@ -99,8 +99,8 @@ foreach s ( `seq 1 $n` )
 
     echo
     echo "Converting $f to fasta for blasting"
-    echo "~/pub/seqtools/convertSeq.pl -i '$f' --fasta-seq-suffix .fa --from-fastq --to-fasta --skip-format-check --overwrite"
-    ~/pub/seqtools/convertSeq.pl -i "$f" --fasta-seq-suffix .fa --from-fastq --to-fasta --skip-format-check --overwrite
+    echo "convertSeq.pl -i '$f' --fasta-seq-suffix .fa --from-fastq --to-fasta --skip-format-check --overwrite"
+    convertSeq.pl -i "$f" --fasta-seq-suffix .fa --from-fastq --to-fasta --skip-format-check --overwrite
     if ( $status ) then
       echo "Command 4 failed"
       exit 4
@@ -110,8 +110,8 @@ foreach s ( `seq 1 $n` )
 
 
     echo
-    echo "~/pub/filetools/grep.pl --split-group-size 100000 '$f.fa' -p '>' -t -o .split"
-    ~/pub/filetools/grep.pl --split-group-size 100000 "$f.fa" -p '>' -t -o .split
+    echo "grep.pl --split-group-size 100000 '$f.fa' -p '>' -t -o .split"
+    grep.pl --split-group-size 100000 "$f.fa" -p '>' -t -o .split
     if ( $status ) then
       echo "Command 5 failed"
       exit 5
@@ -121,8 +121,8 @@ foreach s ( `seq 1 $n` )
 
 
     echo
-    echo "~/pub/clustertools/disEmbarrass.pl --de-split-auto --de-is-stub -i --de-is-suffix -o blastall -p blastn -d '$REF' -i '$f.fa.[0-9]*.split' -v 1 -b 1 -o '.br' > $f.blastcommands"
-    ~/pub/clustertools/disEmbarrass.pl --de-split-auto --de-is-stub -i --de-is-suffix -o blastall -p blastn -d "$REF" -i "$f.fa.[0-9]*.split" -v 1 -b 1 -o '.br' > $f.blastcommands
+    echo "disEmbarrass.pl --de-split-auto --de-is-stub -i --de-is-suffix -o blastall -p blastn -d '$REF' -i '$f.fa.[0-9]*.split' -v 1 -b 1 -o '.br' > $f.blastcommands"
+    disEmbarrass.pl --de-split-auto --de-is-stub -i --de-is-suffix -o blastall -p blastn -d "$REF" -i "$f.fa.[0-9]*.split" -v 1 -b 1 -o '.br' > $f.blastcommands
     if ( $status ) then
       echo "Command 6 failed"
       exit 6
@@ -132,8 +132,8 @@ foreach s ( `seq 1 $n` )
 
 
     echo
-    echo "~/pub/clustertools/batchCommander.pl '$f.blastcommands' --pipeline-mode --verbose"
-    ~/pub/clustertools/batchCommander.pl "$f.blastcommands" --pipeline-mode --verbose --overwrite
+    echo "batchCommander.pl '$f.blastcommands' --pipeline-mode --verbose"
+    batchCommander.pl "$f.blastcommands" --pipeline-mode --verbose --overwrite
     if ( $status ) then
       echo "Command 7 failed"
       exit 7
@@ -307,8 +307,8 @@ foreach s ( `seq 1 $n` )
 
 
       echo
-      echo "~/pub/filetools/rename.pl -w .fastq -f $f.$p"
-      ~/pub/filetools/rename.pl -w ".fastq" -f "$f.$p"
+      echo "rename.pl -w .fastq -f $f.$p"
+      rename.pl -w ".fastq" -f "$f.$p"
       if ( $status ) then
         echo "Command 17 failed"
         exit 17
@@ -348,8 +348,8 @@ foreach s ( `seq 1 $n` )
 
     #Rename the file to put .fastq at the end.
     echo
-    echo "~/pub/filetools/rename.pl -w .fastq -f $f.nohit"
-    ~/pub/filetools/rename.pl -w .fastq -f $f.nohit
+    echo "rename.pl -w .fastq -f $f.nohit"
+    rename.pl -w .fastq -f $f.nohit
     if ( $status ) then
       echo "Command 19 failed"
       exit 19

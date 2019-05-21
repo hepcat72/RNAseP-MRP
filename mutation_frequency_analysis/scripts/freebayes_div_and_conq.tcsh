@@ -1,6 +1,6 @@
 #!/bin/tcsh
 
-#Usage.  Just run.  Must be run in a directory containing these directories with bam files and bam indexes inside each: ASH1 NME1 TLC1-1 TLC1-2 TLC1-3
+#Usage.  No parameters.  Must be run in a directory containing these directories with bam files and bam indexes inside each: ASH1 NME1 TLC1-1 TLC1-2 TLC1-3
 
 foreach d ( ASH1 NME1 TLC1-1 TLC1-2 TLC1-3 )
 
@@ -42,14 +42,14 @@ cd ..
 end
 
 echo "Preparing freebayes run on *.split/*.bam"
-~/pub/clustertools/disEmbarrass.pl --de-split-auto --de-is-suffix --vcf /Genomics/grid/users/rleach/local/bin/freebayes -b "*.split/*.bam" --fasta-reference ../../REFERENCE/$d.fa --vcf .vcf --report-monomorphic --theta 0.00001 --ploidy 2 -K -i -X -u -n 0 --haplotype-length 0 --min-repeat-size 5 --min-repeat-entropy 0 -m 1 -q 0 -R 0 -Y 0 -e 1000 -F 0.0 -C 1 -G 1 --min-coverage 0 --min-alternate-qsum 0 --use-duplicate-reads --min-alternate-count 1 --min-alternate-fraction 0 > $d.freebayes.commands
+disEmbarrass.pl --de-split-auto --de-is-suffix --vcf /Genomics/grid/users/rleach/local/bin/freebayes -b "*.split/*.bam" --fasta-reference ../../REFERENCE/$d.fa --vcf .vcf --report-monomorphic --theta 0.00001 --ploidy 2 -K -i -X -u -n 0 --haplotype-length 0 --min-repeat-size 5 --min-repeat-entropy 0 -m 1 -q 0 -R 0 -Y 0 -e 1000 -F 0.0 -C 1 -G 1 --min-coverage 0 --min-alternate-qsum 0 --use-duplicate-reads --min-alternate-count 1 --min-alternate-fraction 0 > $d.freebayes.commands
 if ( $status ) then
   echo "Command 5 failed"
   exit 5
 endif
 
 echo "Running freebayes on *.split/*.bam"
-~/pub/clustertools/batchCommander.pl $d.freebayes.commands --mem 10000 --verbose --overwrite -s 0
+batchCommander.pl $d.freebayes.commands --mem 10000 --verbose --overwrite -s 0
 if ( $status ) then
   echo "Command 6 failed"
   exit 6
