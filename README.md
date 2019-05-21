@@ -15,6 +15,8 @@ This repository houses or links to all analysis scripts and packages required to
 
 ### Mutation Frequency Analysis
 
+Located in: RNAseP-MRP/mutation_frequency_analysis/scripts
+
 - count_snps.tcsh
 - freebayes_div_and_conq.tcsh
     - batchCommander (https://github.com/hepcat72/batchCommander) [*]
