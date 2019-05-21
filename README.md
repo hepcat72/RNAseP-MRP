@@ -9,7 +9,8 @@ This repository houses or links to all analysis scripts and packages required to
 - *nix OS (e.g. linux or macOS)
     - tcsh
     - perl
-- A Galaxy Server
+- A Galaxy Server User Account
+    - Either the ability to install or request the installation of tools
 
 ## Command Line Scripts
 
