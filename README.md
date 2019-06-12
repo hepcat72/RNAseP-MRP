@@ -105,6 +105,8 @@ Located in: RNAseP-MRP/maturing_polya_abundance_analysis
 
 # Step-by-step Analyses
 
+Some example data is provided so you can make sure you have the correct types of inputs to these analyses.  Unless otherwise noted, the input of each step is the output from the previous step.
+
 ## Mutation Frequency Analysis
 
 In preparation, import these Galaxy Workflows (`*.ga`) into your Galaxy account and install any missing tools noted by Galaxy upon import:
@@ -117,6 +119,8 @@ In preparation, import these Galaxy Workflows (`*.ga`) into your Galaxy account 
 ### Step 1: Split on barcodes
 
 This step can be performed on galaxy or the command line using the barcode splitter of your choice.  We used the barcode splitter linked in the script requirements above with 1 allowed mismatch.
+
+Input: Fastq files for forward and reverse reads which have not been barcode-split yet.
 
 Output: A fastq file for each sample.  Each sample has sequences for all amplicons.
 
