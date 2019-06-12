@@ -118,6 +118,8 @@ In preparation, import these Galaxy Workflows (`*.ga`) into your Galaxy account 
 
 This step can be performed on galaxy or the command line using the barcode splitter of your choice.  We used the barcode splitter linked in the script requirements above with 1 allowed mismatch.
 
+Output: A fastq file for each sample.  Each sample has sequences for all amplicons.
+
 ### Step 2: Blast and then split amplicons for each sample based on top hits
 
 split_amplicons.tcsh can be run on a cluster using batchCommander.  It takes a fasta file of the reference amplicon sequences and the forward and reverse fastq files.  The forward and reverse files must be similarly named so that they are processed in the same order (tip: they must appear in the same relative order when using `ls` on the command line).
@@ -134,11 +136,15 @@ disEmbarrass.pl --de-split-auto /path/to/split_amplicons.tcsh reference_amplicon
 batchCommander.pl ampsplt.commands --verbose --mem 8000
 ```
 
+Output: A fastq file for each sample and amplicon.
+
 ### Step 3: Run Galaxy workflow "Cut short amplicon adapters"
 
 This needs to be done only on forward and reverse reads of amplicons that are shorter than the read length that came off of the sequencer.  It should be run on all samples for each affected amplicon.  Amplicons/Samples must be in paired collections.
 
 Our custom adapters and amplicon length parameters are pre-filled in, but should be changed for your data.  Min and max lengths (for *minimum_final_trimmed_length* and *maximum_final_trimmed_length*) of *amplicon length* +/- 5 and the expected adapter length included in the reads (for *adapter_overlap_minimum*) are what we used.
+
+Output: A fastq file with adapters trimmed off.
 
 ### Step 4: Run the workflow "Amplicon lengths"
 
@@ -149,6 +155,8 @@ This simply counts the nucleotides in the amplicon reference sequences.  The len
 - TLC1-1: 348
 - TLC1-2: 316
 - TLC1-3: 243
+
+Output: A text file with amplicon lengths.
 
 ### Step 5: Run the galaxy workflow "Mutation Frequencies"
 
@@ -161,6 +169,8 @@ Run this for each amplicon-separated collection of paired-end fastq files.  We s
 - TLC1-3 	233	253
 
 If the freeBayes command fails on Galaxy because it runs out of memory or exceeded computation time and gets killed by the cluster, download the bam files, split them up, and run them manually using `freebayes_div_and_conq.tcsh`.  It breaks up bam files for every 10k mappings.  It needs to be run from a directory containing the subdirectories for each amplicon - each of which contains a set of bam files (one for each sample).  Note, it assumes that all stitched-together reads are intended to map from beginning to end of the reference amplicon it was mapped to.
+
+Output: A vcf file for each sample and amplicon.
 
 ### Step 6: Run the SNP counting and depth script
 
@@ -184,6 +194,26 @@ end
 batchCommander.pl cntsnps.commands -p DONE --verbose -s 0
 ```
 
+Output: A tab-delimited text file for each sample and amplicon.  Columns are:
+
+1. Sample name
+2. Amplicon name
+3. Amplicon position
+4. Total number of reads overlapping this position
+5. Total number of alternate observations (i.e. not the nucleotide in the amplicon reference)
+6. The reference nucleotide (^ indicates that the value in the following column represents the total nucleotides that are "not" the value indicated)
+7. Number of nucleotides that are not the reference value
+8. Nucleotide 'A'~
+9. Number of occurrences of the nucleotide 'A'~
+10. Nucleotide 'T'~
+11. Number of occurrences of the nucleotide 'T'~
+12. Nucleotide 'G'~
+13. Number of occurrences of the nucleotide 'G'~
+14. Nucleotide 'C'~
+15. Number of occurrences of the nucleotide 'C'~
+
+~ Empty if this is for the reference nucleotide
+
 ### Step 7: *OPTIONAL* Compute haplotype abundances
 
 To compute the abundance of each unique variant of the amplicon, you can use mergeSeqs.pl from the CFF package.  Note, this trims all sequences to the supplied amplicon length and discards anything shorter, so you may wish to use a length slightly shorter than your amplicon length.  The following must be replaced with your personal parameters:
@@ -196,6 +226,8 @@ mergeSeqs.pl -b amplicon_length -p '' -f amplicon_reference.fa -u summary_outfil
 ```
 
 Note that `"*.fq"` must be in quotes.
+
+Output: Refer to the output of `mergeSeqs.pl --help`.
 
 ## Maturing Poly-A Abundance Analysis
 
