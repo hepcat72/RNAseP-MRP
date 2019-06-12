@@ -42,7 +42,7 @@ cd ..
 end
 
 echo "Preparing freebayes run on *.split/*.bam"
-disEmbarrass.pl --de-split-auto --de-is-suffix --vcf /Genomics/grid/users/rleach/local/bin/freebayes -b "*.split/*.bam" --fasta-reference ../../REFERENCE/$d.fa --vcf .vcf --report-monomorphic --theta 0.00001 --ploidy 2 -K -i -X -u -n 0 --haplotype-length 0 --min-repeat-size 5 --min-repeat-entropy 0 -m 1 -q 0 -R 0 -Y 0 -e 1000 -F 0.0 -C 1 -G 1 --min-coverage 0 --min-alternate-qsum 0 --use-duplicate-reads --min-alternate-count 1 --min-alternate-fraction 0 > $d.freebayes.commands
+disEmbarrass.pl --de-split-auto --de-is-suffix --vcf freebayes -b "*.split/*.bam" --fasta-reference ../../REFERENCE/$d.fa --vcf .vcf --report-monomorphic --theta 0.00001 --ploidy 2 -K -i -X -u -n 0 --haplotype-length 0 --min-repeat-size 5 --min-repeat-entropy 0 -m 1 -q 0 -R 0 -Y 0 -e 1000 -F 0.0 -C 1 -G 1 --min-coverage 0 --min-alternate-qsum 0 --use-duplicate-reads --min-alternate-count 1 --min-alternate-fraction 0 > $d.freebayes.commands
 if ( $status ) then
   echo "Command 5 failed"
   exit 5
