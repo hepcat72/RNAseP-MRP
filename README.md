@@ -12,15 +12,41 @@ See LICENSE file.
 
 ## System Requirements
 
-- *nix OS (e.g. linux or macOS)
-    - tcsh
-    - perl
-- A Galaxy Server User Account
+- *nix OS (tested on Springdale linux version 6 and macOS Mojave version 10.14.3)
+    - tcsh (tested on version 6.17.00 on linux and 6.18.01 on macOS)
+    - perl (tested on version 5.10.1 on linux and 5.28.0 on macOS)
+- A Galaxy Server (tested on Galaxy 19.01)
     - Either the ability to install or request the installation of tools
 
-## Command Line Scripts
+## Command Line Scripts (installation notes)
 
-Note that each command line script may need to be edited to work on your system.  Each is provided as-is.
+### Script Modifications for Installation
+
+Note that each command line script may need to be edited to work on your system.  Each is provided as-is.  However, the following is a set of quick & untested notes that may help in editing each script to run on your data.  A user expereinced in shell scripting should be able to get the scripts working in about an hour.
+
+The path to the tcsh executable will have to be checked at the top of each script (e.g. `/bin/tcsh`).
+
+All three scripts are either called with or were written to require a package called batchCommander, which is a utility for running commands on a compute cluster.  This package has not yet been publicly released.  You can either contact rleach@princeton.edu and request access to a pre-release version or incorporate your own batch script.
+
+#### split_amplicons3.tcsh
+
+Arguments: reference_amplicon_fasta_file "forward_sample_fastq_files" "reverse_sample_fastq_files_same_order" clean_up_intermediate_files
+
+Example arguments: amplicons.fasta "*forward.fastq" "*reverse.fastq" 1
+
+Note, the forward and reverse files must be supplied in the same sample order.  If you use a glob pattern for each set of files, they must be inside quotes and named such that the shell displays them in the same sample order.  Each forward and reverse pair will be processed together, assuming that they were supplied in the same sample order.
+
+Other than that, and making sure all the dependencies are in your path, this script should not need to be modified.
+
+#### freebayes_div_and_conq.tcsh
+
+This script takes no arguments.  It assues that there are 5 directories named `ASH1`, `NME1`, `TLC1-1`, `TLC1-2`, and `TLC1-3` and that there are reference fasta files for each amplicon 2 directories up in a reference directory: `../../REFERENCE/{ASH1,NME1,TLC1-1,TLC1-2,TLC1-3}.fa`.
+
+#### count_snps.tcsh
+
+Arguments: amplicon_name amplicon_length sample_number
+
+This script assumes vcf files are sorted into directories created by freebayes_div_and_conq.tcsh and named in the following manner: `DG$s-*.split/*.vcf` where `$s` is the sample number.  The only thing you should need to modufy in the script is the places where the prefix "DG" is used.
 
 ### Mutation Frequency Analysis
 
