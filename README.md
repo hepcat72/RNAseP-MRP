@@ -105,7 +105,7 @@ Located in: RNAseP-MRP/maturing_polya_abundance_analysis
 
 # Step-by-step Analyses
 
-Some example data is provided so you can make sure you have the correct types of inputs to these analyses.  Unless otherwise noted, the input of each step is the output from the previous step.
+Some example data is provided so you can make sure you have the correct types of inputs to these analyses.  Unless otherwise noted, the input of each step is the output from the previous step.  Runtimes will depend on the size of the input data and the number of nodes on the compute cluster used.
 
 ## Mutation Frequency Analysis
 
